@@ -5,5 +5,5 @@
  *   3 - Three of a Kind; 2 - Two Pair; 1 - Pair; 0 - Bust (nothing)
  */
 public enum Ranks {
-	Bust, One_Pair, Two_Pair, Three_Of_A_Kind, Straight, Flush, Full_House, Four_Of_A_Kind, Straight_Flush, Royal_Flush;
+	BUST, ONE_PAIR, TWO_PAIR, THREE_OF_A_KIND, STRIAGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND, STRAIGHT_FLUSH, ROYAL_FLUSH;
 }

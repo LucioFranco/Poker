@@ -17,7 +17,7 @@ public class Card {
 	}
 
 	public String toString() {
-		return "Face: " + this.face + " Suit: " + this.suit;
+		return this.face + " of " + this.suit;
 	}
 	
 	/**
@@ -54,8 +54,12 @@ public class Card {
 			return -2;
 		}
 	}
-	
+
 	public boolean equals(Card that) {
+		return this.face.equals(that.getFace());
+	}
+	
+	public boolean equalsWithSuit(Card that) {
 		return this.face.equals(that.getFace()) && this.suit.equals(that.getSuit());
 	}
 }
