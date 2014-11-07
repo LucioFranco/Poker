@@ -1,0 +1,6 @@
+cpu1, ONE_PAIR
+cpu3, TWO_PAIR
+cpu3, TWO_PAIR
+Lucio, TWO_PAIR
+Lucio, THREE_OF_A_KIND
+cpu2, TWO_PAIR
