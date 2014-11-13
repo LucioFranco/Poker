@@ -7,7 +7,7 @@ import poker.base.Suit;
 
 public class _HandTest extends _Test{
 	public static void main(String[] args) {
-		Hand hand = new Hand();
+		Hand hand = new Hand(false);
 		Card[] cards = new Card[5];
 		cards[0] = new Card(Face.ACE, Suit.CLUBS);
 		cards[1] = new Card(Face.KING, Suit.CLUBS);

@@ -3,10 +3,18 @@ package poker.base;
 public class Card {
 	private Face face;
 	private Suit suit;
+	private boolean isNull;
 	
 	public Card(Face card, Suit suit) {
 		this.face = card;
 		this.suit = suit;
+		isNull = false;
+	}
+	
+	public Card() {
+		this.face = Face.ACE;
+		this.suit = suit.CLUBS;
+		isNull = true;
 	}
 	
 	public Suit getSuit() {
@@ -15,6 +23,10 @@ public class Card {
 	
 	public Face getFace() {
 		return this.face;
+	}
+	
+	public boolean isNull() {
+		return this.isNull;
 	}
 
 	public String toString() {

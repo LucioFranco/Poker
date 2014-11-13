@@ -29,7 +29,7 @@ public class Player {
 	}
 
 	public void deal() {
-		hand = new Hand();
+		hand = new Hand(false);
 		this.hasFolded = false;
 	}
 	

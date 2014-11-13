@@ -7,10 +7,16 @@ public class Hand {
 	private Ranks bestrank;
 
 	//generate two cards and toString and Equals
-	public Hand() {
-		this.card1 = Deck.nextCard();
-		this.card2 = Deck.nextCard();
+	public Hand(boolean isNull) {
+		if(isNull) {
+			this.card1 = new Card();
+			this.card2 = new Card();
+		}else {
+			this.card1 = Deck.nextCard();
+			this.card2 = Deck.nextCard();
+		}
 	}
+	
 	
 	public Hand(Card card1, Card card2) {
 		this.card1 = card1;
@@ -35,6 +41,10 @@ public class Hand {
 	
 	public Card[] getBestCards() {
 		return this.bestcards;
+	}
+	
+	public Card getBestCard(int index) {
+		return this.bestcards[index];
 	}
 	
 	public String toStringBestCards() {

@@ -1,12 +1,13 @@
 package poker.base;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import poker.execptions.NullPlayerListException;
 import poker.player.Player;
 
 public class Table {
@@ -23,8 +24,18 @@ public class Table {
 	 * 
 	 * @param Player[] players
 	 * Takes in an array of players so that you can set the amout of AI players and ONE Human Player
+	 * @throws NullPlayerListException 
 	 */
-	public Table(Player[] players) {
+	public Table(Player[] players) throws NullPlayerListException {
+		int counter = 0;
+		for(int i = 0; i < players.length; i++) {
+			if(players[i] != null) {
+				counter++;
+			}
+		}
+		if(counter != players.length) {
+			throw new NullPlayerListException("there is a null player or no players");
+		}
 		this.phaseNumber = 1;
 		this.players = Arrays.copyOf(players, players.length);
 		
@@ -39,10 +50,16 @@ public class Table {
 	/**
 	 *  Goes to next phase of game i.e. not card unvield on the table
 	 */
-	public void nextPhase() {
+	
+	public Card[] nextPhase() {
+		
+		System.out.println("running here");
 		System.out.println("Round: " + phaseNumber);
 		if(phaseNumber == 4) {
-			System.out.println("must re deal");
+			return null;
+		}else if(phaseNumber == 3) {
+			phaseNumber++;
+			return null;
 		}else if(phaseNumber == 2) {
 			tableCards[4] = Deck.nextCard();
 			for(int i = 0; i < players.length; i++) {
@@ -60,22 +77,33 @@ public class Table {
 				players[i].update(tableCards, phaseNumber);
 			}
 		}
+		return tableCards.clone();
+	}
+	
+	public int getPhaseNum() {
+		return this.phaseNumber;
 	}
 	
 	/**
 	 * 	deals new cards to the table and deals new cards to the players
 	 */
-	public void deal() {
+	public Card[] deal() {
 		
 		phaseNumber = 1;
 		
-		for(int i = 0; i < 3; ++i) {
-			tableCards[i] = Deck.nextCard();
+		for(int i = 0; i < 5; ++i) {
+			if(i < 3) {
+				tableCards[i] = Deck.nextCard();
+			}else {
+				tableCards[i] = null;
+			}
 		}
+		
 		
 		for(int i = 0; i < players.length; ++i) {
 			players[i].deal();
 		}
+		return tableCards.clone();
 	}
 	
 	/**
@@ -83,18 +111,64 @@ public class Table {
 	 * @return the winner
 	 */
 	public Player determineWinner() {
-		Player bestplayer = this.players[0];
+		Player bestplayer;
+		ArrayList<Player> bestplayers = new ArrayList<Player>();
+		bestplayers.add(this.players[0]);
+		bestplayer = bestplayers.get(0);
 		
 		for(int i = 1; this.players.length > 2 && i < this.players.length; i++) {
-			if(this.players[i].getHand().getBestRank().ordinal() > bestplayer.getHand().getBestRank().ordinal()) {
-				bestplayer = this.players[i];
+			//if player has not folded 
+			if(!this.players[i].hasFolded()) {
+				if(this.players[i].getHand().getBestRank().ordinal() > bestplayers.get(0).getHand().getBestRank().ordinal()) {
+					bestplayers = new ArrayList<Player>();
+					bestplayers.add(this.players[i]);
+				}else if(this.players[i].getHand().getBestRank().equals(bestplayers.get(0).getHand().getBestRank())) {
+					bestplayers.add(this.players[i]);
+				}
 			}
 		}
+		
+		if(bestplayers.size() > 1) {
+			bestplayer = this.compareRanks(bestplayers);
+		}
+		
 		
 		logWinner(bestplayer);
 		return bestplayer;
 	}
 	
+	/**
+	 * @param bestplayers
+	 */
+	private Player compareRanks(ArrayList<Player> bestplayers) {
+		Player best = null;
+		switch(bestplayers.get(0).getHand().getBestRank()) {
+		case BUST:
+			for(int i = 0; i < bestplayers.size() - 1; i++) {
+				if(bestplayers.get(i).getHand().getBestCard(0).compareToWithSuit(bestplayers.get(i + 1).getHand().getBestCard(0)) == 1) {
+					best = bestplayers.get(i);
+				}else {
+					best = bestplayers.get(i + 1);
+				}
+				
+			}
+			return best;
+		case ONE_PAIR:
+			for(int j = 0; j < bestplayers.size() - 1; j++) {
+				int pairIndex = 0;
+				for(int i = 0; i < bestplayers.get(j).getHand().getBestCards().length - 1; i++) {
+					if(bestplayers.get(j).getHand().getBestCard(i).equals(bestplayers.get(j).getHand().getBestCard(i + 1))) {
+						pairIndex = i;
+						break;
+					}
+				}
+			}
+			
+		default:
+			return null;
+		}
+	}
+
 	/**
 	 * 
 	 * @param player
@@ -113,9 +187,7 @@ public class Table {
 			e.printStackTrace();
 		} catch(IOException e) {
 			e.printStackTrace();
-		}
-		
-		
+		}	
 	}
 
 	public String toString() {

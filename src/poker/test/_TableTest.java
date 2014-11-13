@@ -1,5 +1,6 @@
 package poker.test;
 import poker.base.Table;
+import poker.execptions.NullPlayerListException;
 import poker.player.AIPlayer;
 import poker.player.HumanPlayer;
 import poker.player.Player;
@@ -17,16 +18,22 @@ public class _TableTest {
 		
 		
 		
-		Table table = new Table(players);
-		table.deal();
-		System.out.println(table.toStringWithPhase());
-		table.nextPhase();
-		System.out.println(table.toStringWithPhase());
-		table.nextPhase();
-		System.out.println(table.toStringWithPhase());
-		table.nextPhase();
-		Player tempplayer = table.determineWinner();
-		System.out.println("Winner is " + tempplayer.getName() + " with " + tempplayer.getHand().getBestRank());
+		Table table;
+		try {
+			table = new Table(players);
+			table.deal();
+			System.out.println(table.toStringWithPhase());
+			table.nextPhase();
+			System.out.println(table.toStringWithPhase());
+			table.nextPhase();
+			System.out.println(table.toStringWithPhase());
+			table.nextPhase();
+			Player tempplayer = table.determineWinner();
+			System.out.println("Winner is " + tempplayer.getName() + " with " + tempplayer.getHand().getBestRank());
+		} catch (NullPlayerListException e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 }
