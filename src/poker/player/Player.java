@@ -27,6 +27,10 @@ public class Player {
 	public boolean hasFolded() {
 		return this.hasFolded;
 	}
+	
+	public void fold() {
+		this.hasFolded = true;
+	}
 
 	public void deal() {
 		hand = new Hand(false);

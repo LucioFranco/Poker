@@ -56,11 +56,17 @@ public class Card {
 	 * @return
 	 */
 	public int compareToWithSuit(Card that) {
-		if(that.getFace().equals(this.face) && that.getSuit().equals(this.suit)) {
-			return 0;
-		}else if(that.getFace().ordinal() < this.face.ordinal() && that.getSuit().ordinal() < this.suit.ordinal()) {
+		if(that.getFace().equals(this.face)) {
+			if(that.getSuit().ordinal() < this.getSuit().ordinal()) {
+				return 1;
+			}else if(that.getSuit().ordinal() > this.getSuit().ordinal()) {
+				return -1;
+			}else {
+				return 0;
+			}
+		}else if(that.getFace().ordinal() < this.face.ordinal()) {
 			return 1;
-		}else if(that.getFace().ordinal() > this.face.ordinal() && that.getSuit().ordinal() > this.suit.ordinal()) {
+		}else if(that.getFace().ordinal() > this.face.ordinal()) {
 			return -1;
 		}else {
 			System.err.println("Error: something went wrong with Card.compareTo()");

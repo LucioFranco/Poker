@@ -52,8 +52,6 @@ public class Table {
 	 */
 	
 	public Card[] nextPhase() {
-		
-		System.out.println("running here");
 		System.out.println("Round: " + phaseNumber);
 		if(phaseNumber == 4) {
 			return null;
@@ -129,7 +127,10 @@ public class Table {
 		}
 		
 		if(bestplayers.size() > 1) {
+			System.out.println("before");
 			bestplayer = this.compareRanks(bestplayers);
+		}else {
+			bestplayer = bestplayers.get(0);
 		}
 		
 		
@@ -138,6 +139,7 @@ public class Table {
 	}
 	
 	/**
+	 * finds the best player with common rank
 	 * @param bestplayers
 	 */
 	private Player compareRanks(ArrayList<Player> bestplayers) {
@@ -150,22 +152,48 @@ public class Table {
 				}else {
 					best = bestplayers.get(i + 1);
 				}
-				
 			}
 			return best;
 		case ONE_PAIR:
+			for(int i = 0; i < this.tableCards.length - 1; i++) {
+				if(this.tableCards[i].equals(tableCards[i + 1])) {
+					for(int j = 0; j < bestplayers.size() - 1; j++) {
+						if(bestplayers.get(j).getHand().getBestCard(0).compareToWithSuit(bestplayers.get(j + 1).getHand().getBestCard(0)) == 1) {
+							best = bestplayers.get(j);
+						}else {
+							best = bestplayers.get(j + 1);
+						}
+					}
+					return best;
+				}
+			}
 			for(int j = 0; j < bestplayers.size() - 1; j++) {
-				int pairIndex = 0;
+				Card temp1 = null;
 				for(int i = 0; i < bestplayers.get(j).getHand().getBestCards().length - 1; i++) {
 					if(bestplayers.get(j).getHand().getBestCard(i).equals(bestplayers.get(j).getHand().getBestCard(i + 1))) {
-						pairIndex = i;
+						temp1 = bestplayers.get(j).getHand().getBestCard(i);
 						break;
 					}
 				}
+				
+				Card temp2 = null;
+				for(int i = 0; i < bestplayers.get(j + 1).getHand().getBestCards().length - 1; i++) {
+					if(bestplayers.get(j + 1).getHand().getBestCard(i).equals(bestplayers.get(j + 1).getHand().getBestCard(i + 1))) {
+						temp2 = bestplayers.get(j + 1).getHand().getBestCard(i);
+						break;
+					}
+				}
+				
+				if(temp1.compareToWithSuit(temp2) == 1) {
+					best = bestplayers.get(j);
+				}else {
+					best = bestplayers.get(j + 1);
+				}
 			}
-			
+			return best;
 		default:
-			return null;
+			System.out.println("misleading player");
+			return bestplayers.get(0);
 		}
 	}
 

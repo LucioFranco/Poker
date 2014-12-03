@@ -25,15 +25,17 @@ public class TexasHoldemGame implements Runnable {
 	private Thread thread;
 	private Card[] tableCards;
 	private boolean mousepressed;
+	private Player bestplayer;
 	
 	
 	public TexasHoldemGame() {
 		this.mousepressed = false;
-		players = new Player[4];
+		players = new Player[5];
 		players[0] = new HumanPlayer("Lucio");
 		players[1] = new AIPlayer("Bob");
 		players[2] = new AIPlayer("Jones");
 		players[3] = new AIPlayer("Jain");
+		players[4] = new AIPlayer("Sean");
 		
 		
 		try {
@@ -41,6 +43,7 @@ public class TexasHoldemGame implements Runnable {
 		} catch (NullPlayerListException e) {
 			e.printStackTrace();
 		}
+		this.bestplayer = null;
 		thread = new Thread(this);
 		thread.start();
 	}
@@ -55,9 +58,7 @@ public class TexasHoldemGame implements Runnable {
 	}
 	
 	public void draw(Graphics g) {
-		
-		g.setColor(new Color(0, 150, 5));
-		g.fillOval(140, 40, 520, 720);
+	
 		g.drawImage(CardManager.getCardImage(players[0].getHand().card1), 325, 650, 72, 96, null);
 		g.drawImage(CardManager.getCardImage(players[0].getHand().card2), 402, 650, 72, 96, null);
 		
@@ -70,46 +71,16 @@ public class TexasHoldemGame implements Runnable {
 		g.drawImage(CardManager.getCardImage(this.tableCards[4]), x + 308, 450, 72, 96, null);
 		
 		//player 2
-		g.drawImage(CardManager.getCardImage(null), 638, 364, 72, 96, null);
-		g.drawImage(CardManager.getCardImage(null), 715, 364, 72, 96, null);
-		if(players.length > 1) {
-			g.setColor(Color.WHITE);
-			g.setFont(new Font("Veranda", Font.PLAIN, 24));
-			g.drawString(players[1].getName(), 638 + 12, 364 + 120);
-			
-			if(table.getPhaseNum() == 4 && table.determineWinner().equals(players[1])) {
-				g.drawImage(CardManager.getCardImage(players[1].getHand().card1), 638, 364, 72, 96, null);
-				g.drawImage(CardManager.getCardImage(players[1].getHand().card2), 715, 364, 72, 96, null);
-			}
-		}
+		this.drawHand(g, players[1], 638, 364);
 		
 		//player 3
-		g.drawImage(CardManager.getCardImage(null), 564, 98, 72, 96, null);
-		g.drawImage(CardManager.getCardImage(null), 641, 98, 72, 96, null);
-		if(players.length > 2) {
-			g.setColor(Color.WHITE);
-			g.setFont(new Font("Veranda", Font.PLAIN, 24));
-			g.drawString(players[2].getName(), 564 + 12, 98 + 120);
-			
-			if(table.getPhaseNum() == 4 && table.determineWinner().equals(players[2])) {
-				g.drawImage(CardManager.getCardImage(players[2].getHand().card1), 564, 98, 72, 96, null);
-				g.drawImage(CardManager.getCardImage(players[2].getHand().card2), 641, 98, 72, 96, null);
-			}
-		}
+		this.drawHand(g, players[2], 564, 98);
 		
 		//player 4
-		g.drawImage(CardManager.getCardImage(null), 88, 147, 72, 96, null);
-		g.drawImage(CardManager.getCardImage(null), 165, 147, 72, 96, null);
-		if(players.length > 3) {
-			g.setColor(Color.WHITE);
-			g.setFont(new Font("Veranda", Font.PLAIN, 24));
-			g.drawString(players[3].getName(), 88 + 12, 147 + 120);
-			
-			if(players.length > 3 && table.getPhaseNum() == 4 && table.determineWinner().equals(players[3])) {
-				g.drawImage(CardManager.getCardImage(players[3].getHand().card1), 88, 147, 72, 96, null);
-				g.drawImage(CardManager.getCardImage(players[3].getHand().card2), 165, 147, 72, 96, null);
-			}
-		}
+		this.drawHand(g, players[3], 88, 98);
+		
+		//player 5
+		this.drawHand(g, players[4], 28, 364);
 		
 		//buttons
 		g.setColor(Color.ORANGE);
@@ -130,20 +101,36 @@ public class TexasHoldemGame implements Runnable {
 		}
 	}
 	
+	private void drawHand(Graphics g, Player player, int x, int y) {
+		g.drawImage(CardManager.getCardImage(null), x, y, 72, 96, null);
+		g.drawImage(CardManager.getCardImage(null), x + 77, y, 72, 96, null);
+		if(players.length > 1) {
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Veranda", Font.PLAIN, 24));
+			g.drawString(player.getName(), x + 12, y + 120);
+			
+			if(table.getPhaseNum() == 4 && this.bestplayer.equals(player)) {
+				g.drawImage(CardManager.getCardImage(player.getHand().card1), x, y, 72, 96, null);
+				g.drawImage(CardManager.getCardImage(player.getHand().card2), x + 77, y, 72, 96, null);
+			}
+		}
+	}
+	
 	public void buttonUpdate() {
 		Point point = MouseInfo.getPointerInfo().getLocation();
-		System.out.println(point.x + ", " + point.y);
+		
 		if(point.x > 670 && point.x < 770 && point.y > 677 && point.y < 715) {
 			
-
 			Card[] tempcards = table.nextPhase();
-			
-			
 			
 			if(tempcards == null) {
 				Player tempplayer = table.determineWinner();
+				bestplayer = tempplayer;
 				for(int i = 0; i < players.length; i++) {
 					String temp = players[i].getName() + " is " + players[i].getHand().getBestRank();
+					if(players[i].hasFolded()) {
+						temp += " folded";
+					}
 					if(players[i].equals(tempplayer)) {
 						temp += " is winner";
 					}
@@ -154,6 +141,8 @@ public class TexasHoldemGame implements Runnable {
 			}
 			
 			
+		}else if(point.x > 670 && point.y > 725 && point.x < 770 && point.y < 765) {
+			players[0].fold();
 		}
 		
 		if(table.getPhaseNum() == 4 && point.x > 15 && point.y > 690 && point.x < 130 && point.y < 775) {

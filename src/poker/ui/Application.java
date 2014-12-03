@@ -5,12 +5,12 @@ package poker.ui;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -25,6 +25,7 @@ public class Application extends Canvas implements Runnable {
 	
 	public Application() {
 		frame = new JFrame();
+		frame.setTitle("BEST POKER SIMULATOR EVER");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.setLocationRelativeTo(null);
 		frame.setSize(this.WIDTH, this.HEIGHT);
@@ -32,6 +33,7 @@ public class Application extends Canvas implements Runnable {
 		frame.add(this);
 		frame.setVisible(true);
 		frame.setResizable(false);
+		this.createBufferStrategy(3);
 		frame.pack();
 		this.start();
 	}
@@ -82,9 +84,12 @@ public class Application extends Canvas implements Runnable {
 		while(true) {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, 800, 800);
+			g.setColor(new Color(0, 150, 5));
+			g.fillOval(140, 40, 520, 720);
+			g.drawImage(Toolkit.getDefaultToolkit().getImage("res/assets/pokerlogo.png"), 315, 200, this);
 			game.draw(g);
 			try {
-				Thread.sleep(200);
+				Thread.sleep(150);
 				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
