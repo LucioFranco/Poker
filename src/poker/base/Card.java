@@ -13,10 +13,14 @@ public class Card {
 	
 	public Card() {
 		this.face = Face.ACE;
-		this.suit = suit.CLUBS;
+		this.suit = Suit.CLUBS;
 		isNull = true;
 	}
 	
+	public Card(Object object) {
+		
+	}
+
 	public Suit getSuit() {
 		return this.suit;
 	}
@@ -30,7 +34,11 @@ public class Card {
 	}
 
 	public String toString() {
-		return this.face + " of " + this.suit;
+		if(this.face == null && this.suit == null) {
+			return "null card";
+		}else {
+			return this.face + " of " + this.suit;
+		}
 	}
 	
 	/**

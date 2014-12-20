@@ -5,41 +5,38 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import poker.execptions.NullPlayerListException;
 import poker.player.Player;
+import poker.server.PokerServer;
 
-public class Table {
-	private Player[] players;
-	private Card[] tableCards = new Card[5];
-	/*
-	 *  round one with three cards is phase 1
-	 *  round two with four cards it phase 2
-	 *  round three with five cards is phase 3
-	 */
-	private int phaseNumber;
-		
+public class Table implements Runnable {
+	public Player[] players;
+	private Card[] tableCards;
+	public Phase phase;
+	private ArrayList<Player> playerQueue;
+	private Thread thread;
+	private PokerServer server;
+	
 	/**
-	 * 
-	 * @param Player[] players
-	 * Takes in an array of players so that you can set the amout of AI players and ONE Human Player
-	 * @throws NullPlayerListException 
+	 * @param takes in first player for server
 	 */
-	public Table(Player[] players) throws NullPlayerListException {
-		int counter = 0;
-		for(int i = 0; i < players.length; i++) {
-			if(players[i] != null) {
-				counter++;
-			}
+	public Table(Player player, PokerServer server) throws NullPlayerListException {
+		if(player == null) {
+			throw new NullPlayerListException("server player is null");
 		}
-		if(counter != players.length) {
-			throw new NullPlayerListException("there is a null player or no players");
-		}
-		this.phaseNumber = 1;
-		this.players = Arrays.copyOf(players, players.length);
 		
-		this.deal();
+		this.server = server;
+		this.players = new Player[6];
+		this.tableCards = new Card[5];
+		
+		
+		players[0] = player;
+		this.phase = Phase.PRE_DEAL;
+		this.playerQueue = new ArrayList<Player>();
+		this.thread = new Thread(this);
+		
+		this.thread.start();
 	}
 	
 	@SuppressWarnings("unused")
@@ -48,55 +45,131 @@ public class Table {
 	}
 	
 	/**
-	 *  Goes to next phase of game i.e. not card unvield on the table
+	 * Run method for Table thread
 	 */
-	
-	public Card[] nextPhase() {
-		System.out.println("Round: " + phaseNumber);
-		if(phaseNumber == 4) {
-			return null;
-		}else if(phaseNumber == 3) {
-			phaseNumber++;
-			return null;
-		}else if(phaseNumber == 2) {
-			tableCards[4] = Deck.nextCard();
-			for(int i = 0; i < players.length; i++) {
-				players[i].getHand().calculateScore(tableCards);
-			}
-			phaseNumber++;
-			
-		}else if(phaseNumber == 1){
-			tableCards[3] = Deck.nextCard();
-			phaseNumber++;
+	@Override
+	public void run() {
+		while(this.players[1] == null) {
+			//System.out.println("Waiting for second player to join the game");
 		}
 		
-		for(int i = 0; i < players.length; i++) {
-			if(!players[i].hasFolded()) {
-				players[i].update(tableCards, phaseNumber);
-			}
-		}
-		return tableCards.clone();
+		// TODO Create run method for table
+		pickDealer();
+		server.updatePlayersHands();
+		
 	}
 	
-	public int getPhaseNum() {
-		return this.phaseNumber;
+	/**
+	 * randomly picks a dealer for the begining of the game
+	 */
+	private void pickDealer() {
+		//TODO pick dealer
+		
 	}
+	
+	/**
+	 * 
+	 * @return the amount of players currently in game
+	 */
+	public int getNumOfPlayers() {
+		int count = 0;
+		for(int i = 0; i < this.players.length; i++) {
+			if(this.players[i] == null) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * 
+	 * @param player
+	 * @throws NullPlayerListException
+	 * for server to connect player to the game
+	 */
+	public void connectPlayer(Player player) throws NullPlayerListException {
+		if(this.phase.equals(Phase.PRE_DEAL)) {
+			this.addPlayer(player);
+		}else {
+			this.playerQueue.add(player);
+		}
+	}
+	
+	/**
+	 * 
+	 * @param player
+	 * @throws NullPlayerListException
+	 * add player to list of players
+	 */
+	private void addPlayer(Player player) throws NullPlayerListException {
+		for(int i = 0; i < this.players.length; i++) {
+			if(this.players[i] == null) {
+				this.players[i] = player;
+				return;
+			}
+		}
+		
+		throw new NullPlayerListException("Game is full");
+	}
+	
+	/**
+	 * clear the playerQueue to join the game
+	 */
+	private void clearPlayerQueue() {
+		if(this.playerQueue.size() > 0) {
+			for(Player p : this.playerQueue) {
+				try {
+					this.addPlayer(p);
+				} catch (NullPlayerListException e) {
+					e.printStackTrace();
+				}
+			}
+			
+			this.playerQueue = new ArrayList<Player>();
+		}
+	}
+	
+//	/**
+//	 *  Goes to next phase of game i.e. not card unvield on the table
+//	 */
+//	
+//	public Card[] nextPhase() {
+//		System.out.println("Round: " + phaseNumber);
+//		if(phaseNumber == 4) {
+//			return null;
+//		}else if(phaseNumber == 3) {
+//			phaseNumber++;
+//			return null;
+//		}else if(phaseNumber == 2) {
+//			tableCards[4] = Deck.nextCard();
+//			for(int i = 0; i < players.length; i++) {
+//				players[i].getHand().calculateScore(tableCards);
+//			}
+//			phaseNumber++;
+//			
+//		}else if(phaseNumber == 1){
+//			tableCards[3] = Deck.nextCard();
+//			phaseNumber++;
+//		}
+//		
+//		for(int i = 0; i < players.length; i++) {
+//			if(!players[i].hasFolded()) {
+//				players[i].update(tableCards, phaseNumber);
+//			}
+//		}
+//		return tableCards.clone();
+//	}
+//	
+//	public int getPhaseNum() {
+//		return this.phase.ordinal();
+//	}
 	
 	/**
 	 * 	deals new cards to the table and deals new cards to the players
 	 */
 	public Card[] deal() {
 		
-		phaseNumber = 1;
-		
-		for(int i = 0; i < 5; ++i) {
-			if(i < 3) {
-				tableCards[i] = Deck.nextCard();
-			}else {
-				tableCards[i] = null;
-			}
-		}
-		
+		phase = Phase.PRE_FLOP;
 		
 		for(int i = 0; i < players.length; ++i) {
 			players[i].deal();
@@ -232,19 +305,12 @@ public class Table {
 		}
 		return total;
 	}
-	
-	public String toStringWithPhase() {
-		String total = "";
-		
-		for(int i = 0; i < phaseNumber + 2; ++i) {
-			total +=  "Table card #" + (i + 1) + " ";
-			total += tableCards[i].toString() + "\n";
-		}
-		
-		for(int i = 0; i < players.length; ++i) {
-			total += "Player #" + (i + 1) + " ";
-			total += players[i].toString() + "\n";
-		}
-		return total;
+
+	/**
+	 * @param i
+	 * @return certain player that is requested
+	 */
+	public Player getPlayer(int i) {
+		return this.players[i];
 	}
 }

@@ -31,8 +31,16 @@ public class Hand {
 		return this.card2;
 	}
 	
+	public boolean isPlayerHandEmpty() {
+		if(this.card1 == null && this.card2 == null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 	public String toString() {
-		return card1.toString() + " and " + card2.toString();
+		return card1 + " and " + card2;
 	}
 	
 	public boolean equals(Hand that) {

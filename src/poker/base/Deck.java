@@ -32,8 +32,4 @@ public class Deck {
 		}
 		return tempcard;
 	}
-	
-	/*
-	 * create a linked list that expands after every card is drawn
-	 */
 }

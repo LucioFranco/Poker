@@ -4,11 +4,11 @@ import poker.base.*;
 
 public class AIPlayer extends Player{
 	public AIPlayer() {
-		super("computer");
+		super("computer", 0);
 	}
 	
 	public AIPlayer(String name) {
-		super(name);
+		super(name, 0);
 	}
 	
 	public void update(Card[] table, int phaseNumber) {
