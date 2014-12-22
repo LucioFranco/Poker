@@ -13,12 +13,16 @@ import poker.base.Suit;
 public class CardManager {
 	public static Image getCardImage(Card card) {
 		if(card == null || card.isNull()) {
-			return Toolkit.getDefaultToolkit().getImage("res/cards/b1fv.png");
+			return Toolkit.getDefaultToolkit().getImage("res/cards/55.png");
 		}
 		return Toolkit.getDefaultToolkit().getImage("res/cards/" + getCardImageID(card.getFace(), card.getSuit()) + ".png");
 	}
 	
 	private static int getCardImageID(Face face, Suit suit) {
+		if(face == null || suit == null) {
+			return 55;
+		}
+		
 		int suitnum = 0;
 		int facenum = 0;
 		

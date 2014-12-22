@@ -13,10 +13,6 @@ public class HumanPlayer extends Player{
 		scan = new Scanner(System.in);
 	}
 	
-	public void setHand(Hand hand) {
-		this.hand = hand;
-	}
-	
 	public void update(Card[] table, int phaseNumber) {
 		
 	}

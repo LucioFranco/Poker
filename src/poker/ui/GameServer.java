@@ -165,9 +165,6 @@ public class GameServer extends Canvas implements Runnable, ButtonUpdatable {
 	}
 	
 	public void buttonUpdate() {
-		for(Player c : this.players) {
-			System.out.println(c);
-		}
 /*		Point point = MouseInfo.getPointerInfo().getLocation();
 		
 		if(point.x > 670 && point.x < 770 && point.y > 677 && point.y < 715) {

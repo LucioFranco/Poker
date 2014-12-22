@@ -83,9 +83,9 @@ public class PokerClient extends Thread {
 				if(callback != null) {
 					this.sendData(callback);
 				}
-				
+
 				String message = p.cout();
-				
+
 				if(message != null) {
 					System.out.println("CLIENT <[" + ip + ":" + port + "]> " + message);
 				}
@@ -143,6 +143,10 @@ public class PokerClient extends Thread {
 		}
 		
 		return tempplayers;
+	}
+	
+	public void setPlayers(Player[] players) {
+		this.players = players;
 	}
 
 	/**

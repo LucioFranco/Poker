@@ -5,6 +5,9 @@ package poker.server.packets;
 
 import java.net.DatagramPacket;
 
+import poker.base.Card;
+import poker.base.Hand;
+import poker.player.HumanPlayer;
 import poker.player.Player;
 import poker.server.PokerClient;
 import poker.server.PokerServer;
@@ -37,13 +40,32 @@ public class HandUpdatePacket extends Packet {
 	 */
 	@Override
 	public void proccess(PokerClient client) {
-		String[] tempstr = this.message.split(":");
+		String[] tempstr1 = this.message.split(":");
+		Player[] tempplr = new Player[6];
+		
+		String[] tempstr = new String[tempstr1.length - 1];
 		for(int i = 0; i < tempstr.length; i++) {
-			System.out.println(tempstr[i]);
+			tempstr[i] = tempstr1[i + 1];
 		}
+		
+		//TODO FIX ERROR FOR NETWORK MESSAGE FAIL
+		if((tempstr.length % 6) != 0) {
+			System.err.println("ERROR: Network Message failure");
+		}
+		
+		int count = 0;
+		for(int i = 0; i < tempstr.length; i += 6) {
+			Player player = new HumanPlayer(tempstr[i], Integer.parseInt(tempstr[i + 1]));
+			player.setHand(new Hand(new Card(Integer.parseInt(tempstr[i + 2]), Integer.parseInt(tempstr[i + 3])), new Card(Integer.parseInt(tempstr[i + 4]), Integer.parseInt(tempstr[i + 5]))));
+			tempplr[count] = player;
+			count++;
+		}
+		
+		client.setPlayers(tempplr);
 	}
 
 	/**
+	 * 01:(player name):(chips):(face id):(suit id):(face id):(suit id)
 	 * @param players
 	 */
 	public static String updatePlayers(Player[] players) {
@@ -51,7 +73,7 @@ public class HandUpdatePacket extends Packet {
 		
 		for(int i = 0; i < players.length; i++) {
 			if(players[i] != null) { 
-				message += ":" + players[i].getName();
+				message += ":" + players[i].getName() + ":" + players[i].getChips();
 				if (players[i].getHand().isPlayerHandEmpty()) {
 					message += ":0:0:0:0";
 				} else {

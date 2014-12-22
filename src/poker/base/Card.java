@@ -11,6 +11,12 @@ public class Card {
 		isNull = false;
 	}
 	
+	public Card(int face, int suit) {
+		this.face = Face.getFace(face);
+		this.suit = Suit.getSuit(suit);
+		isNull = false;
+	}
+	
 	public Card() {
 		this.face = Face.ACE;
 		this.suit = Suit.CLUBS;

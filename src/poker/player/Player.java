@@ -52,6 +52,10 @@ public abstract class Player{
 	public void setBigBlind(boolean isBigBlind) {
 		this.isBigBlind = isBigBlind;
 	}
+	
+	public void setHand(Hand hand) {
+		this.hand = hand;
+	}
 
 	public boolean isSmallBlind() {
 		return isSmallBlind;
@@ -79,4 +83,11 @@ public abstract class Player{
 	}
 	
 	public abstract void update(Card[] table, int phaseNumber);
+
+	/**
+	 * @return
+	 */
+	public int getChips() {
+		return this.chips;
+	}
 }

@@ -29,15 +29,15 @@ public class ConnectPacket extends Packet {
 		if(server.connectedplayers.size() > 6) {
 			super.callback = "000";
 		}else {
-			MultiPlayer player = new MultiPlayer(new String(super.packet.getData()).substring(2), new Server(super.packet.getAddress(), super.packet.getPort()), 25000);
-			server.connectedplayers.add(player);
 			try {
+				MultiPlayer player = new MultiPlayer(new String(super.packet.getData()).substring(2), new Server(super.packet.getAddress(), super.packet.getPort()), 25000);
+				server.connectedplayers.add(player);
 				server.table.connectPlayer(player);
+				server.updatePlayersHands();
 			} catch (NullPlayerListException e) {
 				e.printStackTrace();
 			}
 			super.callback = "001";
-			server.printPlayerList();
 		}
 	}
 

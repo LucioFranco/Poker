@@ -55,8 +55,7 @@ public class PokerServer extends Thread {
 				//receive packet
 				DatagramPacket packet = new DatagramPacket(buf, buf.length);
 				socket.receive(packet);
-				
-				String message = new String(packet.getData()).trim();
+			
 				Packet p = Packet.parsePacket(packet);
 				p.proccess(this);
 				callback = p.callback();
@@ -64,8 +63,12 @@ public class PokerServer extends Thread {
 				if(callback != null) {
 					this.sendData(callback, packet.getAddress(), packet.getPort());
 				}
-				
-				System.out.println("SERVER <[" + packet.getAddress() + ":" + packet.getPort() + "]> " + message);
+
+				String message = p.cout();
+
+				if(message != null) {
+					System.out.println("SEVER <[" + this.socket.getInetAddress().toString() +":" + this.socket.getPort() + "]> " + message);
+				}
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -120,6 +123,7 @@ public class PokerServer extends Thread {
 	 */
 	public void updatePlayersHands() {
 		String message = "01" + HandUpdatePacket.updatePlayers(this.table.players);
+		System.out.println("Server - " + message);
 		for(MultiPlayer p : this.connectedplayers) {
 			this.sendData(message.getBytes(), p.server.getIp(), p.server.getPort());
 		}

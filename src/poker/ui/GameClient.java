@@ -7,14 +7,12 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import poker.base.Card;
@@ -108,6 +106,8 @@ public class GameClient extends Canvas implements Runnable, ButtonUpdatable {
 		if(tableCards == null) {
 			tableCards = new Card[5];
 		}
+		
+		this.players = this.client.getPlayers();
 		
 		g.drawImage(CardManager.getCardImage(this.humanPlayer.getHand().card1), 325, 650, 72, 96, null);
 		g.drawImage(CardManager.getCardImage(this.humanPlayer.getHand().card1), 402, 650, 72, 96, null);
