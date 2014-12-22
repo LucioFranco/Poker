@@ -145,8 +145,16 @@ public class PokerClient extends Thread {
 		return tempplayers;
 	}
 	
+	/**
+	 * update players in client class
+	 * @param players
+	 */
 	public void setPlayers(Player[] players) {
 		this.players = players;
+	}
+	
+	public void setTableCards(Card[] tableCards) {
+		this.tableCards = tableCards;
 	}
 
 	/**

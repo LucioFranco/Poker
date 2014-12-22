@@ -21,4 +21,12 @@ public abstract class Util {
 
 	    return randomNum;
 	}
+	
+	public static String[] trimTopOfMessageArray(String[] tempstr1) {
+		String[] tempstr = new String[tempstr1.length - 1];
+		for(int i = 0; i < tempstr.length; i++) {
+			tempstr[i] = tempstr1[i + 1];
+		}
+		return tempstr;
+	}
 }

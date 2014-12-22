@@ -18,6 +18,7 @@ import poker.player.MultiPlayer;
 import poker.player.Player;
 import poker.server.packets.HandUpdatePacket;
 import poker.server.packets.Packet;
+import poker.server.packets.TableCardUpdatePacket;
 
 /**
  * @author luciofranco
@@ -123,7 +124,16 @@ public class PokerServer extends Thread {
 	 */
 	public void updatePlayersHands() {
 		String message = "01" + HandUpdatePacket.updatePlayers(this.table.players);
-		System.out.println("Server - " + message);
+		for(MultiPlayer p : this.connectedplayers) {
+			this.sendData(message.getBytes(), p.server.getIp(), p.server.getPort());
+		}
+	}
+	
+	/**
+	 * update the clients with the current table/common cards
+	 */
+	public void updateTableCards() {
+		String message = "02" + TableCardUpdatePacket.updatePlayers(this.table.tableCards);
 		for(MultiPlayer p : this.connectedplayers) {
 			this.sendData(message.getBytes(), p.server.getIp(), p.server.getPort());
 		}

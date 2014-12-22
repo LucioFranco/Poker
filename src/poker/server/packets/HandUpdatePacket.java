@@ -11,6 +11,7 @@ import poker.player.HumanPlayer;
 import poker.player.Player;
 import poker.server.PokerClient;
 import poker.server.PokerServer;
+import poker.util.Util;
 
 /**
  * @author luciofranco
@@ -40,13 +41,8 @@ public class HandUpdatePacket extends Packet {
 	 */
 	@Override
 	public void proccess(PokerClient client) {
-		String[] tempstr1 = this.message.split(":");
+		String[] tempstr = Util.trimTopOfMessageArray(this.message.split(":"));
 		Player[] tempplr = new Player[6];
-		
-		String[] tempstr = new String[tempstr1.length - 1];
-		for(int i = 0; i < tempstr.length; i++) {
-			tempstr[i] = tempstr1[i + 1];
-		}
 		
 		//TODO FIX ERROR FOR NETWORK MESSAGE FAIL
 		if((tempstr.length % 6) != 0) {

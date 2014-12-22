@@ -28,4 +28,11 @@ public enum Suit {
 		}
 		return null;
 	}
+
+	/**
+	 * @return
+	 */
+	public int getValue() {
+		return this.ordinal();
+	}
 }

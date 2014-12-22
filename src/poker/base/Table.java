@@ -12,7 +12,7 @@ import poker.server.PokerServer;
 
 public class Table implements Runnable {
 	public Player[] players;
-	private Card[] tableCards;
+	public Card[] tableCards;
 	public Phase phase;
 	private ArrayList<Player> playerQueue;
 	private Thread thread;
@@ -55,6 +55,8 @@ public class Table implements Runnable {
 		
 		// TODO Create run method for table
 		pickDealer();
+		server.updatePlayersHands();
+		deal();
 		server.updatePlayersHands();
 		
 	}

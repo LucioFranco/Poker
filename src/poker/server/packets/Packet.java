@@ -43,10 +43,13 @@ public abstract class Packet {
 	public static Packet parsePacket(DatagramPacket packet) {
 		switch(Integer.parseInt((new String(packet.getData()).substring(0, 2)))) {
 			default:
+				throw new RuntimeException("SECURITY BREACH!!!");
 			case 00:
 				return new ConnectPacket(packet);
 			case 01:
 				return new HandUpdatePacket(packet);
+			case 02:
+				return new TableCardUpdatePacket(packet);
 		}
 	}
 	
