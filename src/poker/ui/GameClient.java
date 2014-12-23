@@ -162,37 +162,7 @@ public class GameClient extends JPanel implements Runnable, ButtonUpdatable {
 	}
 	
 	public void buttonUpdate() {
-/*		Point point = MouseInfo.getPointerInfo().getLocation();
-		
-		if(point.x > 670 && point.x < 770 && point.y > 677 && point.y < 715) {
-			
-			Card[] tempcards = table.nextPhase();
-			
-			if(tempcards == null) {
-				Player tempplayer = table.determineWinner();
-				bestplayer = tempplayer;
-				for(int i = 0; i < players.length; i++) {
-					String temp = players[i].getName() + " is " + players[i].getHand().getBestRank();
-					if(players[i].hasFolded()) {
-						temp += " folded";
-					}
-					if(players[i].equals(tempplayer)) {
-						temp += " is winner";
-					}
-					System.out.println(temp);
-				}
-			}else {
-				this.tableCards = tempcards;
-			}
-			
-			
-		}else if(point.x > 670 && point.y > 725 && point.x < 770 && point.y < 765) {
-			players[0].fold();
-		}
-		
-		if(table.getPhaseNum() == 4 && point.x > 15 && point.y > 690 && point.x < 130 && point.y < 775) {
-			this.tableCards = table.deal();
-		}*/
+		//TODO draw buttons
 	}
 	
 	private void drawHand(Player player, int x, int y) {
