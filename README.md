@@ -14,6 +14,9 @@ access.
 * Server
   * Connect players
   * Update player hands
+  * Client
+  * Server
+  * Inital packet system
 * User Interface
   * Table
 
