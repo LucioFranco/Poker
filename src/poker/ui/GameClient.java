@@ -3,7 +3,6 @@
  */
 package poker.ui;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,8 +11,9 @@ import java.awt.Toolkit;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import poker.base.Card;
 import poker.player.HumanPlayer;
@@ -21,7 +21,7 @@ import poker.player.Player;
 import poker.server.PokerClient;
 import poker.server.Server;
 
-public class GameClient extends Canvas implements Runnable, ButtonUpdatable {
+public class GameClient extends JPanel implements Runnable, ButtonUpdatable {
 	private static final long serialVersionUID = 1L;
 	private Thread thread;
 	private Graphics g;
@@ -44,18 +44,21 @@ public class GameClient extends Canvas implements Runnable, ButtonUpdatable {
 		frame.setTitle("Poker Client");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
-		frame.setSize(this.WIDTH, this.HEIGHT);
+	
+		this.setBackground(Color.black);
+		
 		frame.add(this);
-		frame.setVisible(true);
-		frame.setResizable(true);
 		frame.pack();
+		frame.setSize(this.WIDTH, this.HEIGHT);
+		frame.setVisible(true);
+		frame.setResizable(false);
 		
 		this.setSize(width, height);
 		this.setVisible(true);
 		g = this.getGraphics();
 		this.players = new Player[6];
 		this.tableCards = new Card[5];
-		this.humanPlayer = new HumanPlayer(username, 25000);
+		this.humanPlayer = new HumanPlayer(JOptionPane.showInputDialog(frame, "Enter Username"), 25000);
 		this.client = new PokerClient(this.humanPlayer, server);
 		this.start();
 		this.client.connect();
@@ -78,8 +81,6 @@ public class GameClient extends Canvas implements Runnable, ButtonUpdatable {
 		this.addMouseListener(new ButtonListener(this));
 		
 		while(true) {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, 800, 800);
 			g.setColor(new Color(0, 150, 5));
 			g.fillOval(140, 40, 520, 720);
 			g.drawImage(Toolkit.getDefaultToolkit().getImage("res/assets/pokerlogo.png"), 315, 200, this);
@@ -110,7 +111,7 @@ public class GameClient extends Canvas implements Runnable, ButtonUpdatable {
 		this.players = this.client.getPlayers();
 		
 		g.drawImage(CardManager.getCardImage(this.humanPlayer.getHand().card1), 325, 650, 72, 96, null);
-		g.drawImage(CardManager.getCardImage(this.humanPlayer.getHand().card1), 402, 650, 72, 96, null);
+		g.drawImage(CardManager.getCardImage(this.humanPlayer.getHand().card2), 402, 650, 72, 96, null);
 		
 		//table cards
 		int x = 210;

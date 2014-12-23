@@ -174,7 +174,9 @@ public class Table implements Runnable {
 		phase = Phase.PRE_FLOP;
 		
 		for(int i = 0; i < players.length; ++i) {
-			players[i].deal();
+			if(players[i] != null) {
+				players[i].deal();
+			}
 		}
 		return tableCards.clone();
 	}

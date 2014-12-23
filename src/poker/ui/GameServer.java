@@ -3,30 +3,29 @@
  */
 package poker.ui;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import poker.base.Card;
 import poker.player.HumanPlayer;
-import poker.player.MultiPlayer;
 import poker.player.Player;
-import poker.server.PokerClient;
 import poker.server.PokerServer;
-import poker.server.Server;
 
 /**
  * @author luciofranco
  *
  */
-public class GameServer extends Canvas implements Runnable, ButtonUpdatable {
+public class GameServer extends JPanel implements Runnable, ButtonUpdatable {
 	private static final long serialVersionUID = 1L;
 	private Thread thread;
 	private Graphics g;
@@ -43,15 +42,18 @@ public class GameServer extends Canvas implements Runnable, ButtonUpdatable {
 	}
 	
 	public GameServer(int width, int height, int port) {
+		super();
 		frame = new JFrame();
 		frame.setTitle("Poker Server");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.setLocationRelativeTo(null);
-		frame.setSize(width, height);
+		this.setBackground(Color.black);
 		frame.add(this);
-		frame.setVisible(true);
-		frame.setResizable(true);
 		frame.pack();
+		frame.setSize(width, height);
+		frame.setVisible(true);
+		frame.setResizable(false);
+		
 		
 		this.setSize(width, height);
 		this.setVisible(true);
@@ -80,8 +82,6 @@ public class GameServer extends Canvas implements Runnable, ButtonUpdatable {
 		this.addMouseListener(new ButtonListener(this));
 		
 		while(true) {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, 800, 800);
 			g.setColor(new Color(0, 150, 5));
 			g.fillOval(140, 40, 520, 720);
 			g.drawImage(Toolkit.getDefaultToolkit().getImage("res/assets/pokerlogo.png"), 315, 200, this);
@@ -106,7 +106,7 @@ public class GameServer extends Canvas implements Runnable, ButtonUpdatable {
 		this.players = this.server.getPlayers();
 		
 		g.drawImage(CardManager.getCardImage(this.humanPlayer.getHand().card1), 325, 650, 72, 96, null);
-		g.drawImage(CardManager.getCardImage(this.humanPlayer.getHand().card1), 402, 650, 72, 96, null);
+		g.drawImage(CardManager.getCardImage(this.humanPlayer.getHand().card2), 402, 650, 72, 96, null);
 		
 		//table cards
 		int x = 210;
@@ -116,24 +116,34 @@ public class GameServer extends Canvas implements Runnable, ButtonUpdatable {
 		g.drawImage(CardManager.getCardImage(this.tableCards[3]), x + 231, 450, 72, 96, null);
 		g.drawImage(CardManager.getCardImage(this.tableCards[4]), x + 308, 450, 72, 96, null);
 		
+		this.players[1] = new HumanPlayer("Tom", 25000);
 		//player 2
 		if(players[1] != null) {
 			this.drawHand(players[1], 638, 364);
 		}
 		
+		this.players[2] = new HumanPlayer("Alex", 25000);
 		//player 3
 		if(players[2] != null) {
 			this.drawHand(players[2], 564, 98);
 		}
 		
+		this.players[3] = new HumanPlayer("Jake", 25000);
 		//player 4
 		if(players[3] != null) {
 			this.drawHand(players[3], 88, 98);
 		}
 		
+		this.players[4] = new HumanPlayer("Bob", 25000);
 		//player 5
 		if(players[4] != null) {
 			this.drawHand(players[4], 28, 364);
+		}
+
+		//player 6
+		this.players[5] = new HumanPlayer("Jim", 25000);
+		if(players[5] != null) {
+			this.drawHand(players[5], 28, 364);
 		}
 		
 		//buttons
@@ -155,19 +165,29 @@ public class GameServer extends Canvas implements Runnable, ButtonUpdatable {
 			g.drawString("Re-Deal", 20, 720);
 		}
 		
-		String str = "Connected Players: " + this.humanPlayer.getName() + " ";
-		for(MultiPlayer p : this.server.connectedplayers) {
-			str += p.getName() + " ";
-		}
-		
+		this.drawPlayerList();
+	}
+	
+	private void drawPlayerList() {
+		g.setFont(new Font("Veranda", Font.PLAIN, 15));
 		g.setColor(Color.white);
-		g.drawString(str, 50, 50);
+		
+		int x = 50, y = 50;
+		g.drawString("Players (" + this.server.table.getNumOfPlayers() + "/6)", x, y);
+		
+		int breakvalue = 15;
+		
+		for(int i = 0; i < this.players.length; i++) {
+			if(this.players[i] != null) {
+				g.drawString(this.players[i].getName(), x, y + (breakvalue * (i + 1)));
+			}
+		}
 	}
 	
 	public void buttonUpdate() {
-/*		Point point = MouseInfo.getPointerInfo().getLocation();
-		
-		if(point.x > 670 && point.x < 770 && point.y > 677 && point.y < 715) {
+		Point point = MouseInfo.getPointerInfo().getLocation();
+		System.out.println(point.x+ ", " + point.y);
+	/*		if(point.x > 670 && point.x < 770 && point.y > 677 && point.y < 715) {
 			
 			Card[] tempcards = table.nextPhase();
 			
