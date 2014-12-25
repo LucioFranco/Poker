@@ -1,7 +1,7 @@
 /**
  * 
  */
-package poker.ui;
+package poker.ui.client;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -20,6 +20,9 @@ import poker.player.HumanPlayer;
 import poker.player.Player;
 import poker.server.PokerClient;
 import poker.server.Server;
+import poker.ui.ButtonListener;
+import poker.ui.ButtonUpdatable;
+import poker.ui.CardManager;
 
 public class GameClient extends JPanel implements Runnable, ButtonUpdatable {
 	private static final long serialVersionUID = 1L;

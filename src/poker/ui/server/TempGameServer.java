@@ -1,6 +1,10 @@
-/**
+package poker.ui.server;
+/*
+/*
+/*
  * 
  */
+/*
 package poker.ui;
 
 import java.awt.Color;
@@ -20,12 +24,13 @@ import poker.base.Card;
 import poker.player.HumanPlayer;
 import poker.player.Player;
 import poker.server.PokerServer;
-
+*/
 /**
  * @author luciofranco
  *
  */
-public class GameServer extends JPanel implements Runnable, ButtonUpdatable {
+/*
+public class TempGameServer extends JPanel implements Runnable, ButtonUpdatable {
 	private static final long serialVersionUID = 1L;
 	private Thread thread;
 	private Graphics g;
@@ -38,10 +43,10 @@ public class GameServer extends JPanel implements Runnable, ButtonUpdatable {
 	private PokerServer server;
 	
 	public static void main(String[] args) throws UnknownHostException {
-		new GameServer(800, 800, 25565);
+		new TempGameServer(800, 800, 25565);
 	}
 	
-	public GameServer(int width, int height, int port) {
+	public TempGameServer(int width, int height, int port) {
 		super();
 		frame = new JFrame();
 		frame.setTitle("Poker Server");
@@ -155,7 +160,6 @@ public class GameServer extends JPanel implements Runnable, ButtonUpdatable {
 		g.drawString("Check", 675, 660);
 		g.drawString("Fold", 690, 710);
 		
-		//TODO Fix phase number
 		if(phaseNumber == 4) {
 			//buttons
 			g.setColor(Color.RED);
@@ -216,8 +220,8 @@ public class GameServer extends JPanel implements Runnable, ButtonUpdatable {
 		if(table.getPhaseNum() == 4 && point.x > 15 && point.y > 690 && point.x < 130 && point.y < 775) {
 			this.tableCards = table.deal();
 		}*/
-	}
-	
+	//}
+	/*
 	private void drawHand(Player player, int x, int y) {
 		g.drawImage(CardManager.getCardImage(null), x, y, 72, 96, null);
 		g.drawImage(CardManager.getCardImage(null), x + 77, y, 72, 96, null);
@@ -226,7 +230,6 @@ public class GameServer extends JPanel implements Runnable, ButtonUpdatable {
 			g.setFont(new Font("Veranda", Font.PLAIN, 24));
 			g.drawString(player.getName(), x + 12, y + 120);
 			
-			//TODO Fix player hand showing add to PokerClient
 			if(true) {
 				g.drawImage(CardManager.getCardImage(player.getHand().card1), x, y, 72, 96, null);
 				g.drawImage(CardManager.getCardImage(player.getHand().card2), x + 77, y, 72, 96, null);
@@ -235,3 +238,4 @@ public class GameServer extends JPanel implements Runnable, ButtonUpdatable {
 	}
 
 }
+*/

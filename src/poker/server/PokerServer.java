@@ -26,27 +26,22 @@ import poker.server.packets.TableCardUpdatePacket;
  */
 public class PokerServer extends Thread {
 	private DatagramSocket socket;
-	public List<MultiPlayer> connectedplayers = new ArrayList<MultiPlayer>();
-	private HumanPlayer humanplayer; 
+	public ArrayList<MultiPlayer> connectedplayers = new ArrayList<MultiPlayer>();
 	public Table table;
 	
-	public PokerServer(HumanPlayer player, int port) {
+	public PokerServer(int port) {
 		super("PokerServer");
 		
-		this.humanplayer = player;
-		
 		try {
-			this.table = new Table(this.humanplayer, this);
+			this.table = new Table(this);
 			
 			socket = new DatagramSocket(port);
 		} catch (SocketException e) {
 			e.printStackTrace();
-		} catch(NullPlayerListException e) {
-			e.printStackTrace();
-		}
+		} 
 		this.start();
 	}
-	
+
 	public void run() {
 		while(true) {
 			try {
@@ -103,20 +98,8 @@ public class PokerServer extends Thread {
 	 * 
 	 * @return list of players ordered for the client Player list that is displayed
 	 */
-	public Player[] getPlayers() {
-		//TODO Re Do getPlayers on poker server
-		Player[] tempplayers = new Player[6];
-		tempplayers[0] = this.table.players[0];
-		for(int i = 1; i < tempplayers.length; i++) {
-			if(this.table.getPlayer(i) != null && this.table.getPlayer(i).getName().equals(this.humanplayer.getName())) {
-				tempplayers[i] = tempplayers[0];
-				tempplayers[0] = this.table.getPlayer(i);
-			}else {
-				tempplayers[i] = this.table.getPlayer(i);
-			}
-		}
-		
-		return tempplayers;
+	public ArrayList<MultiPlayer> getPlayers() {
+		return this.connectedplayers;
 	}
 
 	/**

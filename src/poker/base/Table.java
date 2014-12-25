@@ -21,17 +21,11 @@ public class Table implements Runnable {
 	/**
 	 * @param takes in first player for server
 	 */
-	public Table(Player player, PokerServer server) throws NullPlayerListException {
-		if(player == null) {
-			throw new NullPlayerListException("server player is null");
-		}
-		
+	public Table(PokerServer server) {		
 		this.server = server;
 		this.players = new Player[6];
 		this.tableCards = new Card[5];
 		
-		
-		players[0] = player;
 		this.phase = Phase.PRE_DEAL;
 		this.playerQueue = new ArrayList<Player>();
 		this.thread = new Thread(this);
@@ -51,13 +45,12 @@ public class Table implements Runnable {
 	public void run() {
 		while(this.players[1] == null) {
 			//System.out.println("Waiting for second player to join the game");
+			server.updatePlayersHands();
 		}
 		
-		// TODO Create run method for table
-		pickDealer();
-		server.updatePlayersHands();
-		deal();
-		server.updatePlayersHands();
+		//TODO Create run method for table
+		//TODO pickDealer();
+		System.out.println("got passed the test");
 		
 	}
 	

@@ -6,6 +6,6 @@ import poker.player.HumanPlayer;
 
 public class _TableTest {
 	public static void main(String[] args) throws NullPlayerListException {
-		Table table = new Table(new HumanPlayer("joe", 25000), null);
+		Table table = new Table(null);
 	}
 }
