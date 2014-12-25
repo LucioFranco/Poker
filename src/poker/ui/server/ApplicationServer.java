@@ -4,15 +4,20 @@
 package poker.ui.server;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
+
+import poker.server.PokerServer;
 
 /**
  * @author luciofranco
@@ -22,8 +27,22 @@ public class ApplicationServer extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtEnterTextHere;
-	private TextAreaOutputStream out;
 	private JTextArea consoleTextArea;
+	private PokerServer server;
+	private ConsoleUpdateThread consolethread;
+	
+	private class EnterButtonListener implements ActionListener {
+		private JTextField textArea;
+		
+		public EnterButtonListener(JTextField textArea) {
+			this.textArea = textArea;
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			Console.getInstance().say(new ConsoleMessage("Server", this.textArea.getText()));
+		}
+		
+	}
 
 	/**
 	 * Launch the application.
@@ -72,6 +91,7 @@ public class ApplicationServer extends JFrame {
 		txtEnterTextHere.setColumns(10);
 		
 		JButton btnEnter = new JButton("Enter");
+		btnEnter.addActionListener(new EnterButtonListener(this.txtEnterTextHere));
 		btnEnter.setBounds(345, 531, 99, 29);
 		contentPane.add(btnEnter);
 		
@@ -79,8 +99,9 @@ public class ApplicationServer extends JFrame {
 	}
 	
 	private void init() {
-		this.out = new TextAreaOutputStream(this.consoleTextArea, "Test");
-		
-		System.out.println("test");
-	}
+		//create new object
+		this.server = new PokerServer(Integer.parseInt(JOptionPane.showInputDialog("Enter port")));
+		this.consolethread = new ConsoleUpdateThread(this.consoleTextArea, this);
+		this.consolethread.start();
+	}	
 }

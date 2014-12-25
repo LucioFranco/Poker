@@ -9,16 +9,14 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.List;
 
 import poker.base.Table;
-import poker.execptions.NullPlayerListException;
-import poker.player.HumanPlayer;
 import poker.player.MultiPlayer;
 import poker.player.Player;
 import poker.server.packets.HandUpdatePacket;
 import poker.server.packets.Packet;
 import poker.server.packets.TableCardUpdatePacket;
+import poker.ui.server.Console;
 
 /**
  * @author luciofranco
@@ -28,6 +26,7 @@ public class PokerServer extends Thread {
 	private DatagramSocket socket;
 	public ArrayList<MultiPlayer> connectedplayers = new ArrayList<MultiPlayer>();
 	public Table table;
+	public Console out;
 	
 	public PokerServer(int port) {
 		super("PokerServer");
