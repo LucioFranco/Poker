@@ -41,7 +41,6 @@ public class HandUpdatePacket extends Packet {
 	 */
 	@Override
 	public void proccess(PokerClient client) {
-		System.out.println(this.message);
 		String[] tempstr = Util.trimTopOfMessageArray(this.message.split(":"));
 		Player[] tempplr = new Player[6];
 		

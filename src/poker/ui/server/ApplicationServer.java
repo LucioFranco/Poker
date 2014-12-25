@@ -76,7 +76,7 @@ public class ApplicationServer extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(10, 6, 434, 521);
+		scrollPane.setBounds(6, 6, 788, 521);
 		contentPane.add(scrollPane);
 		
 		this.consoleTextArea = new JTextArea();
@@ -86,13 +86,13 @@ public class ApplicationServer extends JFrame {
 		
 		txtEnterTextHere = new JTextField();
 		txtEnterTextHere.setText("Enter text here");
-		txtEnterTextHere.setBounds(6, 530, 340, 28);
+		txtEnterTextHere.setBounds(6, 530, 687, 28);
 		contentPane.add(txtEnterTextHere);
 		txtEnterTextHere.setColumns(10);
 		
 		JButton btnEnter = new JButton("Enter");
 		btnEnter.addActionListener(new EnterButtonListener(this.txtEnterTextHere));
-		btnEnter.setBounds(345, 531, 99, 29);
+		btnEnter.setBounds(695, 531, 99, 29);
 		contentPane.add(btnEnter);
 		
 		init();	
@@ -103,5 +103,6 @@ public class ApplicationServer extends JFrame {
 		this.server = new PokerServer(Integer.parseInt(JOptionPane.showInputDialog("Enter port")));
 		this.consolethread = new ConsoleUpdateThread(this.consoleTextArea, this);
 		this.consolethread.start();
+		
 	}	
 }

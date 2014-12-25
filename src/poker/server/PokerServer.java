@@ -26,7 +26,6 @@ public class PokerServer extends Thread {
 	private DatagramSocket socket;
 	public ArrayList<MultiPlayer> connectedplayers = new ArrayList<MultiPlayer>();
 	public Table table;
-	public Console out;
 	
 	public PokerServer(int port) {
 		super("PokerServer");

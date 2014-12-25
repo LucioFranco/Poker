@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import poker.execptions.NullPlayerListException;
 import poker.player.Player;
 import poker.server.PokerServer;
+import poker.ui.server.Console;
 
 public class Table implements Runnable {
 	public Player[] players;
@@ -83,11 +84,17 @@ public class Table implements Runnable {
 	 * for server to connect player to the game
 	 */
 	public void connectPlayer(Player player) throws NullPlayerListException {
+		Console.getInstance().say("Server", "Player " + player.getName() + " has connected!");
 		if(this.phase.equals(Phase.PRE_DEAL)) {
 			this.addPlayer(player);
 		}else {
 			this.playerQueue.add(player);
+			Console.getInstance().say("Server", "Player " + player.getName() + " has been added to the player queue!");			
 		}
+	}
+	
+	public void removePlayer() {
+		//TODO remove player method for when player disconnects
 	}
 	
 	/**
@@ -100,11 +107,12 @@ public class Table implements Runnable {
 		for(int i = 0; i < this.players.length; i++) {
 			if(this.players[i] == null) {
 				this.players[i] = player;
+				Console.getInstance().say("Server", "Player " + player.getName() + " has been added to the game!");
 				return;
 			}
 		}
 		
-		throw new NullPlayerListException("Game is full");
+		Console.getInstance().say("Server", "Player " + player.getName() + " could not be added because game is full!");
 	}
 	
 	/**
@@ -197,7 +205,6 @@ public class Table implements Runnable {
 		}
 		
 		if(bestplayers.size() > 1) {
-			System.out.println("before");
 			bestplayer = this.compareRanks(bestplayers);
 		}else {
 			bestplayer = bestplayers.get(0);
