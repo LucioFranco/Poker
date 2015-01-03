@@ -26,7 +26,11 @@ public class PokerServer extends Thread {
 	private DatagramSocket socket;
 	public ArrayList<MultiPlayer> connectedplayers = new ArrayList<MultiPlayer>();
 	public Table table;
-	
+
+	/**
+	 * Constructs the Poker Server with the specified port
+	 * @param port
+	 */
 	public PokerServer(int port) {
 		super("PokerServer");
 		
@@ -70,9 +74,15 @@ public class PokerServer extends Thread {
 		}
 	}
 	
-	
-	
-	public void sendData(byte[] data, InetAddress ip, int port) {
+	/**
+	 * 
+	 * @param data
+	 * @param ip
+	 * @param port
+	 * 
+	 * sends data to the specified ip and port
+	 */
+	private void sendData(byte[] data, InetAddress ip, int port) {
 		DatagramPacket packet = new DatagramPacket(data, data.length, ip, port);
 		try {
 			this.socket.send(packet);
