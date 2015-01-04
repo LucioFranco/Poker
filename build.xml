@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Poker">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../../../Applications/Eclipse/"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+    <path id="Poker.classpath">
+        <pathelement location="bin"/>
+    </path>
+    <path id="run._CardManagerTest.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run._CardTest.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run._DeckTest.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run._HandTest.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run._ScoreTest.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run._ServerTest.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run._TableTest.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run.Application.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run.ApplicationServer (1).bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run.ApplicationServer.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run.ChatWindow.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run.GameClient.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run.PokerServer.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run.TempGameServer.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <path id="run.TestApplication.bootclasspath">
+        <fileset dir="${java.home}/lib" includes="*.jar"/>
+        <fileset dir="${java.home}/lib/ext" includes="*.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="res">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path="res"/>
+            <classpath refid="Poker.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="_CardManagerTest">
+        <java classname="poker.test._CardManagerTest" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run._CardManagerTest.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="_CardTest">
+        <java classname="poker.test._CardTest" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run._CardTest.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="_DeckTest">
+        <java classname="poker.test._DeckTest" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run._DeckTest.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="_HandTest">
+        <java classname="poker.test._HandTest" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run._HandTest.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="_ScoreTest">
+        <java classname="poker.test._ScoreTest" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run._ScoreTest.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="_ServerTest">
+        <java classname="poker.test._ServerTest" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run._ServerTest.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="_TableTest">
+        <java classname="poker.test._TableTest" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run._TableTest.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="Application">
+        <java classname="poker.ui.Application" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run.Application.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="ApplicationServer (1)">
+        <java classname="poker.ui.server.ApplicationServer" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run.ApplicationServer (1).bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="ApplicationServer">
+        <java classname="poker.ui.ApplicationServer" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run.ApplicationServer.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="ChatWindow">
+        <java classname="poker.ui.ChatWindow" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run.ChatWindow.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="GameClient">
+        <java classname="poker.ui.client.GameClient" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run.GameClient.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="PokerServer">
+        <java classname="poker.server.PokerServer" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run.PokerServer.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="TempGameServer">
+        <java classname="poker.ui.TempGameServer" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run.TempGameServer.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+    <target name="TestApplication">
+        <java classname="poker.ui.TestApplication" failonerror="true" fork="yes">
+            <classpath refid="Poker.classpath"/>
+            <bootclasspath>
+                <path refid="run.TestApplication.bootclasspath"/>
+            </bootclasspath>
+        </java>
+    </target>
+</project>
