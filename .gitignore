@@ -1,3 +1,5 @@
 winnerlog.txt
 .settings
-/bin
+bin/poker
+.DS_Store
+.classpath
